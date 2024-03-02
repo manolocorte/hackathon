@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  backend:
+    build: ./dev_container
+    ports:
+      - "4000:4000"
+    depends_on:
+      - db
+    volumes:
+      - ./dev_container/code:/app
+      - ./dev_container/data:/data
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    volumes:
+      - ./frontend/volume:/volume
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: example
+    volumes:
+      - ./data:/var/lib/postgresql/data
